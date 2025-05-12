@@ -1,8 +1,7 @@
 package com.example.lightcontrolapplication.owon.sdk.util;
 
 import com.example.lightcontrolapplication.DeviceModel;
-import com.example.lightcontrolapplication.DeviceTypeCode;
-import com.example.lightcontrolapplication.owon.LightModel;
+import com.example.lightcontrolapplication.LightModel;
 import com.example.lightcontrolapplication.z_UpdateSwitchgearBean;
 import com.example.lightcontrolapplication.EPListBean;
 
@@ -19,20 +18,12 @@ public class DeviceMessagesManager {
 
     private static DeviceMessagesManager instance;
     private List<SocketMessageListener> listeners;
-    private boolean isLoggedIn = false;
-    private Random random = new Random();
+    private Random random = new Random();           // For Testing LightApplication
 
-    /**
-     * Constructor for DeviceMessagesManager
-     */
     public DeviceMessagesManager() {
         listeners = new ArrayList<>();
     }
 
-    /**
-     * Singleton pattern implementation to get instance
-     * @return DeviceMessagesManager instance
-     */
     public static synchronized DeviceMessagesManager getInstance() {
         if (instance == null) {
             instance = new DeviceMessagesManager();
@@ -40,43 +31,21 @@ public class DeviceMessagesManager {
         return instance;
     }
 
-    /**
-     * Register a message listener
-     * @param listener The listener to register
-     */
     public void registerMessageListener(SocketMessageListener listener) {
         if (!listeners.contains(listener)) {
             listeners.add(listener);
         }
     }
 
-    /**
-     * Unregister a message listener
-     * @param listener The listener to unregister
-     */
     public void unregisterMessageListener(SocketMessageListener listener) {
         listeners.remove(listener);
     }
 
-
-
-    /**
-     * Query the list of gateways
-     * @param page Page number for pagination
-     * @param pagesize Items per page
-     */
     public void QueryGatewayList(int page, int pagesize) {
-        // In a real implementation, this would send a request to the server
-        // For this example, we'll simulate a response
         simulateGatewayListResponse();
     }
 
-    /**
-     * Get the list of devices
-     */
     public void GetEpList() {
-        // In a real implementation, this would send a request to the server
-        // For this example, we'll simulate a response
         simulateDeviceListResponse();
     }
 
@@ -86,8 +55,6 @@ public class DeviceMessagesManager {
      * @param cache Use cache flag (0 for no cache, 1 for using cache)
      */
     public void getDeviceState(DeviceModel device, int cache) {
-        // In a real implementation, this would send a request to the server
-        // For this example, we'll simulate a response
         simulateDeviceStateResponse(device);
     }
 
@@ -99,67 +66,6 @@ public class DeviceMessagesManager {
     public void setUpSwitch(DeviceModel device, boolean switchOn) {
         simulateLightSwitchResponse(device, switchOn);
     }
-
-    /**
-     * Control a smart curtain (move)
-     * @param device The device info
-     * @param direction Direction to move (1 for forward, 0 for reverse)
-     */
-    public void SmartCurtainMove(DeviceModel device, int direction) {
-        // Implementation for curtain movement
-        // Not used in the light control app, but included for completeness
-    }
-
-    /**
-     * Stop a smart curtain
-     * @param device The device info
-     */
-    public void SmartCurtainStop(DeviceModel device) {
-        // Implementation for stopping curtain
-        // Not used in the light control app, but included for completeness
-    }
-
-    /**
-     * Set the brightness of a smart light
-     * @param ieee Device IEEE address
-     * @param ep Device endpoint
-     * @param brightnessValue Brightness value (0-255)
-     */
-    public void SmartLightSetBrightness(String ieee, int ep, int brightnessValue) {
-        // Implementation for setting light brightness
-        // Not used in this basic light control app, but would be used in the advanced version
-    }
-
-    /**
-     * Set the color temperature of a smart light
-     * @param ieee Device IEEE address
-     * @param ep Device endpoint
-     * @param colorTempValue Color temperature value (0-370)
-     */
-    public void SmartLightSetColorTemp(String ieee, int ep, int colorTempValue) {
-        // Implementation for setting light color temperature
-        // Not used in this basic light control app, but would be used in the advanced version
-    }
-
-    /**
-     * Deploy security (arm)
-     * @param zoneID Zone ID (default 255)
-     */
-    public void SecurityDeployment(int zoneID) {
-        // Implementation for security deployment
-        // Not used in the light control app, but included for completeness
-    }
-
-    /**
-     * Disarm security
-     * @param zoneID Zone ID (default 255)
-     */
-    public void SecurityDisarming(int zoneID) {
-        // Implementation for security disarming
-        // Not used in the light control app, but included for completeness
-    }
-
-    // ----------------- Simulation methods for testing -----------------
 
     /**
      * Simulate a gateway list response
@@ -200,9 +106,12 @@ public class DeviceMessagesManager {
                     // Create a list of simulated devices
                     List<DeviceModel> devices = new ArrayList<>();
 
-                    // Add different types of devices
                     DeviceModel light1 = new LightModel("AA",1,"Light A",Constants.LIGHT_601);
-                    DeviceModel light2 = new DeviceModel("BB",1,"Light A",Constants.LIGHT_601);
+                    DeviceModel light2 = new DeviceModel("BB",1,"Light B",Constants.LIGHT_601);
+                    DeviceModel light3 = new LightModel("CC",2,"Light C",Constants.LIGHT_601);
+
+                    System.out.println(light1.getDeviceType());
+                    System.out.println(light2.getDeviceType());
 
                     devices.add(light1);
                     devices.add(light2);
@@ -259,6 +168,7 @@ public class DeviceMessagesManager {
             }
         }).start();
     }
+
 
     /**
      * Simulate a light switch response
@@ -333,9 +243,6 @@ public class DeviceMessagesManager {
     public void queryState(String deviceIeee, int deviceEp) {
         // TODO: Incomplete
         return ;
-    }
-
-    public void setSocketMessageListener(SocketMessageListener socketMessageListener) {
     }
 
     public void getDeviceList() {

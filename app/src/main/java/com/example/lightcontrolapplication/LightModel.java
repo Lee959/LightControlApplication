@@ -1,4 +1,4 @@
-package com.example.lightcontrolapplication.owon;
+package com.example.lightcontrolapplication;
 
 import com.example.lightcontrolapplication.DeviceModel;
 

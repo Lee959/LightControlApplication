@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    // UI components
     private Switch lightSwitch;
     private TextView statusTextView;
     private ImageView lightImageView;
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         // Initialize device manager
         initDeviceManager();
 
-        // Set up switch listener
         lightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -65,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Set up refresh button
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         deviceManager = new DeviceMessagesManager();
 
         // Set up message listener
-        deviceManager.setSocketMessageListener(new SocketMessageListener() {
+        deviceManager.registerMessageListener(new SocketMessageListener() {
             @Override
             public void getMessage(int commandID, Object bean) {
                 runOnUiThread(() -> {
@@ -95,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
     private void handleMessageCallback(int commandID, Object bean) {
         switch (commandID) {
             case Constants.ZigBeeGetEPList:
-                // Handle device list
                 handleDeviceList(bean);
                 break;
 
@@ -197,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getDeviceList() {
         try {
-            deviceManager.getDeviceList();
+            deviceManager.GetEpList();
         } catch (Exception e) {
             Log.e(TAG, "Error getting device list: " + e.getMessage());
             statusTextView.setText("Error getting device list");
