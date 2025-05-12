@@ -1,6 +1,7 @@
 package com.example.lightcontrolapplication;
 
 public class DeviceTypeCode {
+
     // Temperature and humidity sensor
     public static final int TH_SENSOR = 0x0302;
 

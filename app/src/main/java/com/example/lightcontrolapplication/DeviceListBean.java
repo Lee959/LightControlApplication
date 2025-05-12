@@ -17,12 +17,12 @@ import com.example.lightcontrolapplication.owon.sdk.util.Constants;
 import com.example.lightcontrolapplication.owon.sdk.util.DeviceMessagesManager;
 import com.example.lightcontrolapplication.owon.sdk.util.SocketMessageListener;
 
-public class DeviceListActivity extends AppCompatActivity {
+public class DeviceListBean extends AppCompatActivity {
 
     private ListView deviceListView;
     private DeviceMessagesManager deviceManager;
-    private List<DeviceInfo> deviceList = new ArrayList<>();
-    private ArrayAdapter<DeviceInfo> adapter;
+    private List<DeviceModel> deviceList = new ArrayList<>();
+    private ArrayAdapter<DeviceModel> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,20 +40,20 @@ public class DeviceListActivity extends AppCompatActivity {
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DeviceInfo selectedDevice = deviceList.get(position);
+                DeviceModel selectedDevice = deviceList.get(position);
 
                 // Make sure we only select light devices
                 if (selectedDevice.getDeviceType() == Constants.LIGHT_601 ||
                         selectedDevice.getDeviceType() == Constants.LIGHT_EXTEND_LO_COLOR_TEMP_GOODVB) {
 
                     // Create intent to pass to MainActivity
-                    Intent intent = new Intent(DeviceListActivity.this, MainActivity.class);
+                    Intent intent = new Intent(DeviceListBean.this, MainActivity.class);
                     intent.putExtra("DEVICE_IEEE", selectedDevice.getIeee());
                     intent.putExtra("DEVICE_EP", selectedDevice.getEp());
                     intent.putExtra("DEVICE_NAME", selectedDevice.getName());
                     startActivity(intent);
                 } else {
-                    Toast.makeText(DeviceListActivity.this,
+                    Toast.makeText(DeviceListBean.this,
                             "Please select a light device", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -112,7 +112,7 @@ public class DeviceListActivity extends AppCompatActivity {
                     deviceList.clear();
 
                     // Add only light devices to the list
-                    for (DeviceInfo device : epListBean.getDevices()) {
+                    for (DeviceModel device : epListBean.getDevices()) {
                         if (device.getDeviceType() == Constants.LIGHT_601 ||
                                 device.getDeviceType() == Constants.LIGHT_EXTEND_LO_COLOR_TEMP_GOODVB) {
                             deviceList.add(device);
@@ -123,12 +123,12 @@ public class DeviceListActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
 
                     if (deviceList.isEmpty()) {
-                        Toast.makeText(DeviceListActivity.this,
+                        Toast.makeText(DeviceListBean.this,
                                 "No light devices found", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
-                    Toast.makeText(DeviceListActivity.this,
+                    Toast.makeText(DeviceListBean.this,
                             "Error updating device list: " + e.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
