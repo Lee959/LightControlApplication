@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lightcontrolapplication.owon.sdk.util.Constants;
 import com.example.lightcontrolapplication.owon.sdk.util.DeviceMessagesManager;
+import com.example.lightcontrolapplication.owon.sdk.util.SocketMessageListener;
 
 import java.util.ArrayList;
 
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                         statusTextView.setText("已连接设备: " + deviceInfo.getName());
 
                         // Query current light state
-                        queryLightState();
+//                        queryLightState();
                         return;
                     }
                 }
@@ -186,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Light control successful");
 
                 // Query the current state to ensure UI reflects actual state
-                queryLightState();
+//                queryLightState();
             } else {
                 Log.e(TAG, "Light control failed");
                 Toast.makeText(this, "Failed to control light", Toast.LENGTH_SHORT).show();
@@ -216,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
     private void controlLight(boolean turnOn) {
         try {
             // Create device info bean
-            DeviceInfoBean infoBean = new DeviceInfoBean();
+            DeviceModel infoBean = new DeviceModel();
             infoBean.setIeee(deviceIeee);
             infoBean.setEp(deviceEp);
 

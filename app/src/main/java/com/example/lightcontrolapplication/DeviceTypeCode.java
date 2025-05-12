@@ -24,4 +24,7 @@ public class DeviceTypeCode {
 
     // Door sensor
     public static final int DOOR_SENSOR = 0x0402;
+
+    // Undefine Type
+    public static final int UNKNOW_DEVICE = 0x0000;
 }

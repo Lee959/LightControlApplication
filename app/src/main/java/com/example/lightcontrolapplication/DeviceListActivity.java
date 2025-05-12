@@ -21,8 +21,8 @@ public class DeviceListActivity extends AppCompatActivity {
 
     private ListView deviceListView;
     private DeviceMessagesManager deviceManager;
-    private List<DeviceInfo> deviceList = new ArrayList<>();
-    private ArrayAdapter<DeviceInfo> adapter;
+    private List<DeviceModel> deviceList = new ArrayList<>();
+    private ArrayAdapter<DeviceModel> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class DeviceListActivity extends AppCompatActivity {
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DeviceInfo selectedDevice = deviceList.get(position);
+                DeviceModel selectedDevice = deviceList.get(position);
 
                 // Make sure we only select light devices
                 if (selectedDevice.getDeviceType() == Constants.LIGHT_601 ||
@@ -112,7 +112,7 @@ public class DeviceListActivity extends AppCompatActivity {
                     deviceList.clear();
 
                     // Add only light devices to the list
-                    for (DeviceInfo device : epListBean.getDevices()) {
+                    for (DeviceModel device : epListBean.getDevices()) {
                         if (device.getDeviceType() == Constants.LIGHT_601 ||
                                 device.getDeviceType() == Constants.LIGHT_EXTEND_LO_COLOR_TEMP_GOODVB) {
                             deviceList.add(device);

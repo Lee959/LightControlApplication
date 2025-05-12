@@ -7,13 +7,13 @@ import java.util.List;
  */
 public class EPListBean {
 
-    private List<DeviceInfo> devices;
+    private List<DeviceModel> devices;
 
-    public List<DeviceInfo> getDevices() {
+    public List<DeviceModel> getDevices() {
         return devices;
     }
 
-    public void setDevices(List<DeviceInfo> devices) {
+    public void setDevices(List<DeviceModel> devices) {
         this.devices = devices;
     }
 }

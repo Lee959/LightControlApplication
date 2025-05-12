@@ -1,8 +1,8 @@
 package com.example.lightcontrolapplication.owon.sdk.util;
 
-import android.content.Context;
-
-import com.example.lightcontrolapplication.DeviceInfo;
+import com.example.lightcontrolapplication.DeviceModel;
+import com.example.lightcontrolapplication.DeviceTypeCode;
+import com.example.lightcontrolapplication.owon.LightModel;
 import com.example.lightcontrolapplication.z_UpdateSwitchgearBean;
 import com.example.lightcontrolapplication.EPListBean;
 
@@ -58,45 +58,7 @@ public class DeviceMessagesManager {
         listeners.remove(listener);
     }
 
-    /**
-     * Login to the system using socket connection
-     * @param context Android context
-     * @param account User account
-     * @param password User password
-     */
-    public void LoginSocket(Context context, String account, String password) {
-        // In a real implementation, this would connect to the server and authenticate
-        // For this example, we'll simulate a successful login
 
-        // Simulate network delay
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1500); // Simulate 1.5 second network delay
-
-                    // Create login response bean
-                    LoginSocketResBean loginRes = new LoginSocketResBean();
-
-                    // Check credentials
-                    if ("fbadmin".equals(account) && "fbadmin".equals(password)) {
-                        loginRes.setCode(100); // Success
-                        isLoggedIn = true;
-                    } else {
-                        loginRes.setCode(303); // Password error
-                    }
-
-                    // Notify listeners
-                    for (SocketMessageListener listener : listeners) {
-                        listener.getMessage(Constants.LoginSocketRes, loginRes);
-                    }
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
 
     /**
      * Query the list of gateways
@@ -123,7 +85,7 @@ public class DeviceMessagesManager {
      * @param device The device info
      * @param cache Use cache flag (0 for no cache, 1 for using cache)
      */
-    public void getDeviceState(DeviceInfo device, int cache) {
+    public void getDeviceState(DeviceModel device, int cache) {
         // In a real implementation, this would send a request to the server
         // For this example, we'll simulate a response
         simulateDeviceStateResponse(device);
@@ -134,9 +96,7 @@ public class DeviceMessagesManager {
      * @param device The device info
      * @param switchOn Whether to turn the switch on or off
      */
-    public void setUpSwitch(DeviceInfo device, boolean switchOn) {
-        // In a real implementation, this would send a command to the device
-        // For this example, we'll simulate a response
+    public void setUpSwitch(DeviceModel device, boolean switchOn) {
         simulateLightSwitchResponse(device, switchOn);
     }
 
@@ -145,7 +105,7 @@ public class DeviceMessagesManager {
      * @param device The device info
      * @param direction Direction to move (1 for forward, 0 for reverse)
      */
-    public void SmartCurtainMove(DeviceInfo device, int direction) {
+    public void SmartCurtainMove(DeviceModel device, int direction) {
         // Implementation for curtain movement
         // Not used in the light control app, but included for completeness
     }
@@ -154,7 +114,7 @@ public class DeviceMessagesManager {
      * Stop a smart curtain
      * @param device The device info
      */
-    public void SmartCurtainStop(DeviceInfo device) {
+    public void SmartCurtainStop(DeviceModel device) {
         // Implementation for stopping curtain
         // Not used in the light control app, but included for completeness
     }
@@ -238,43 +198,15 @@ public class DeviceMessagesManager {
                     Thread.sleep(800); // Simulate network delay
 
                     // Create a list of simulated devices
-                    List<DeviceInfo> devices = new ArrayList<>();
+                    List<DeviceModel> devices = new ArrayList<>();
 
                     // Add different types of devices
-                    DeviceInfo light1 = new DeviceInfo();
-                    light1.setName("Kitchen Light");
-                    light1.setDeviceType(Constants.LIGHT_601);
-                    light1.setLinkStatus(true);
-                    light1.setIeee("AA:BB:CC:DD:EE:FF:01");
-                    light1.setEp(1);
-                    devices.add(light1);
+                    DeviceModel light1 = new LightModel("AA",1,"Light A",Constants.LIGHT_601);
+                    DeviceModel light2 = new DeviceModel("BB",1,"Light A",Constants.LIGHT_601);
 
-                    DeviceInfo light2 = new DeviceInfo();
-                    light2.setName("Living Room Light");
-                    light2.setDeviceType(Constants.LIGHT_601);
-                    light2.setLinkStatus(true);
-                    light2.setIeee("AA:BB:CC:DD:EE:FF:02");
-                    light2.setEp(1);
+                    devices.add(light1);
                     devices.add(light2);
 
-                    DeviceInfo rgbLight = new DeviceInfo();
-                    rgbLight.setName("Bedroom RGB Light");
-                    rgbLight.setDeviceType(Constants.LIGHT_EXTEND_LO_COLOR_TEMP_GOODVB);
-                    rgbLight.setLinkStatus(true);
-                    rgbLight.setIeee("AA:BB:CC:DD:EE:FF:03");
-                    rgbLight.setEp(1);
-                    devices.add(rgbLight);
-
-                    // Add other device types (for completeness)
-                    DeviceInfo tempSensor = new DeviceInfo();
-                    tempSensor.setName("Temperature Sensor");
-                    tempSensor.setDeviceType(DeviceTypeCode.TH_SENSOR);
-                    tempSensor.setLinkStatus(true);
-                    tempSensor.setIeee("AA:BB:CC:DD:EE:FF:04");
-                    tempSensor.setEp(1);
-                    devices.add(tempSensor);
-
-                    // Create the device list bean
                     EPListBean deviceListBean = new EPListBean();
                     deviceListBean.setDevices(devices);
 
@@ -293,7 +225,7 @@ public class DeviceMessagesManager {
      * Simulate a device state response
      * @param device The device to simulate a response for
      */
-    private void simulateDeviceStateResponse(DeviceInfo device) {
+    private void simulateDeviceStateResponse(DeviceModel device) {
         // Create a simulated response after a short delay
         new Thread(new Runnable() {
             @Override
@@ -333,7 +265,7 @@ public class DeviceMessagesManager {
      * @param device The device to simulate a response for
      * @param switchOn Whether the switch is being turned on or off
      */
-    private void simulateLightSwitchResponse(DeviceInfo device, boolean switchOn) {
+    private void simulateLightSwitchResponse(DeviceModel device, boolean switchOn) {
         // Create a simulated response after a short delay
         new Thread(new Runnable() {
             @Override
@@ -372,7 +304,7 @@ public class DeviceMessagesManager {
      * @param device The device to simulate a physical interaction for
      * @param switchOn Whether the switch is being turned on or off
      */
-    public void simulatePhysicalSwitchOperation(DeviceInfo device, boolean switchOn) {
+    public void simulatePhysicalSwitchOperation(DeviceModel device, boolean switchOn) {
         // Create a simulated response after a short delay
         new Thread(new Runnable() {
             @Override
@@ -396,5 +328,16 @@ public class DeviceMessagesManager {
                 }
             }
         }).start();
+    }
+
+    public void queryState(String deviceIeee, int deviceEp) {
+        // TODO: Incomplete
+        return ;
+    }
+
+    public void setSocketMessageListener(SocketMessageListener socketMessageListener) {
+    }
+
+    public void getDeviceList() {
     }
 }
