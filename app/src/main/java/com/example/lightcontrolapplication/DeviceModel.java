@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class DeviceModel implements Serializable {
 
-    // Basic device identifiers
+    // Basic device identifier
     private String ieee;            // Device physical address
     private int ep;                 // Device endpoint
     private String name;            // Device name
