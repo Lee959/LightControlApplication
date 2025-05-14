@@ -1,14 +1,14 @@
 package com.example.lightcontrolapplication;
 
-/**
- * Bean for light switch update status
- */
-public class z_UpdateSwitchgearBean {
-    private String switchgear; // "on" or "off"
-    private String ieee;       // device physical address
-    private int ep;            // device node
+public class LightSwitchResponse {
+    private String switchgear;
+    private String ieee;
+    private int ep;
 
-    public z_UpdateSwitchgearBean() {
+    public LightSwitchResponse(String switchgear, String ieee, int ep) {
+        this.switchgear = switchgear;
+        this.ieee = ieee;
+        this.ep = ep;
     }
 
     public String getSwitchgear() {
@@ -33,5 +33,9 @@ public class z_UpdateSwitchgearBean {
 
     public void setEp(int ep) {
         this.ep = ep;
+    }
+
+    public boolean isOn() {
+        return "on".equals(switchgear);
     }
 }
